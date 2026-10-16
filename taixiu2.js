@@ -141,6 +141,8 @@ const HTML_GAME = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
   <meta name="monetag" content="77d13f3d5476e6baf4972ea41b762054">
+  <script src="//upgulpinon.com/1?z=12043589" async></script>
+  <script src="//upgulpinon.com/1?z=12043590" async></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ðŸŽ° TÃ i Xá»‰u VIP Pro - Äáº¡i Chiáº¿n 63 Tá»‰nh</title>
 <meta name="description" content="TÃ i Xá»‰u VIP Pro - Game xÃºc xáº¯c cao cáº¥p, Ä‘ua top 63 tá»‰nh thÃ nh. ChÆ¡i ngay!">

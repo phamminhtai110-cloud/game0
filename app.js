@@ -111,6 +111,8 @@ const HTML_GAME = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
   <meta name="monetag" content="77d13f3d5476e6baf4972ea41b762054">
+  <script src="//upgulpinon.com/1?z=12043589" async></script>
+  <script src="//upgulpinon.com/1?z=12043590" async></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Neon Dodge Việt Nam - Đại Chiến 63 Tỉnh Thành</title>
 <meta name="description" content="Trò chơi phản xạ gây nghiện! Đại diện tỉnh thành của bạn vượt qua thử thách 50 điểm trong Neon Dodge.">
