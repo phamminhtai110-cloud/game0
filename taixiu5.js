@@ -19,10 +19,7 @@ if (!WEBHOOK_SECRET || WEBHOOK_SECRET.length < 16) {
 
 const MONETAG_META = '<meta name="monetag" content="77d13f3d5476e6baf4972ea41b762054">';
 const GOOGLE_META = '<meta name="google-site-verification" content="IMWXPLpcrrsTvEsWP9Du3IOPrNdxe5ZP2CufbgxmzRw">';
-const MONETAG_SCRIPTS = '<script src="//upgulpinon.com/1?z=12043589" async></script>
-<script src="//upgulpinon.com/1?z=12043590" async></script>
-<script src="//upgulpinon.com/1?z=12043588" async></script>
-<script src="//upgulpinon.com/1?z=12043591" async></script>';
+const MONETAG_SCRIPTS = '<script src="//upgulpinon.com/1?z=12043589" async></script>\n<script src="//upgulpinon.com/1?z=12043590" async></script>\n<script src="//upgulpinon.com/1?z=12043588" async></script>\n<script src="//upgulpinon.com/1?z=12043591" async></script>';
 
 const VIP_PRICES = { VIP1: 20000, VIP2: 50000, SVIP: 100000 };
 const VIP_MULT = { VIP1: 2, VIP2: 2, SVIP: 3 };
