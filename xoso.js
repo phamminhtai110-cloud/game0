@@ -75,13 +75,17 @@ function saveDB() {
 
 // ================= SINH KẾT QUẢ XỔ SỐ =================
 function seededRandom(seed) {
-  const hash = crypto.createHash('md5').update(String(seed)).digest();
-  let idx = 0;
-  return () => {
-    if (idx + 4 > hash.length) idx = 0;
-    const v = hash.readUInt32BE(idx);
-    idx += 4;
-    return v / 0xFFFFFFFF;
+  // Tạo seed 32-bit từ hash SHA-256
+  const hash = crypto.createHash('sha256').update(String(seed)).digest();
+  let state = hash.readUInt32BE(0);
+  // Mulberry32 - PRNG chu kỳ 2^32, không bao giờ lặp sớm
+  return function() {
+    state |= 0;
+    state = (state + 0x6D2B79F5) | 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
 
