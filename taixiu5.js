@@ -19,7 +19,26 @@ if (!WEBHOOK_SECRET || WEBHOOK_SECRET.length < 16) {
 
 const MONETAG_META = '<meta name="monetag" content="77d13f3d5476e6baf4972ea41b762054">';
 const GOOGLE_META = '<meta name="google-site-verification" content="IMWXPLpcrrsTvEsWP9Du3IOPrNdxe5ZP2CufbgxmzRw">';
-const MONETAG_SCRIPTS = '<script src="//upgulpinon.com/1?z=12043589" async></script>\n<script src="//upgulpinon.com/1?z=12043590" async></script>';
+const MONETAG_SCRIPTS = '<script src="//upgulpinon.com/1?z=12043589" async></script>
+<script src="//upgulpinon.com/1?z=12043590" async></script>
+<script src="//upgulpinon.com/1?z=12043588" async></script>
+<script src="//upgulpinon.com/1?z=12043591" async></script>
+<script>
+window.__monetagDebug = { loaded: [], failed: [] };
+[\'12043589\',\'12043590\',\'12043588\',\'12043591\'].forEach(function(z){
+  var img = new Image();
+  img.onload = function(){ window.__monetagDebug.loaded.push(z); };
+  img.onerror = function(){ window.__monetagDebug.failed.push(z); };
+  img.src = \'//upgulpinon.com/1?z=\' + z + \'&_=\' + Date.now();
+});
+setTimeout(function(){
+  if (window.__monetagDebug.loaded.length === 0) {
+    console.log(\'MONETAG: Khong zone nao load duoc — co the AdBlock\');
+  } else {
+    console.log(\'MONETAG: \' + window.__monetagDebug.loaded.length + \'/4 zone OK\');
+  }
+}, 8000);
+</script>';
 
 const VIP_PRICES = { VIP1: 20000, VIP2: 50000, SVIP: 100000 };
 const VIP_MULT = { VIP1: 2, VIP2: 2, SVIP: 3 };
