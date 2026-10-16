@@ -1,7 +1,7 @@
-﻿/**
+/**
  * TAI XIU VN - ALL-IN-ONE SINGLE FILE
- * Cháº¡y: WEBHOOK_SECRET=<secret> node taixiu.js
- * Port máº·c Ä‘á»‹nh: 3001 (Ä‘á»ƒ cháº¡y song song vá»›i Neon Dodge trÃªn 3000)
+ * Chạy: WEBHOOK_SECRET=<secret> node taixiu.js
+ * Port mặc định: 3001 (để chạy song song với Neon Dodge trên 3000)
  */
 
 const http = require('http');
@@ -10,7 +10,7 @@ const path = require('path');
 const url = require('url');
 const crypto = require('crypto');
 
-// ================= 1. Cáº¤U HÃŒNH =================
+// ================= 1. CẤU HÌNH =================
 const PORT = process.env.PORT || 3001;
 const BANK_ID = 'MB';
 const ACCOUNT_NO = '0865085878';
@@ -18,7 +18,7 @@ const DB_FILE = path.join(__dirname, 'taixiu-db.json');
 
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 if (!WEBHOOK_SECRET || WEBHOOK_SECRET.length < 16) {
-  console.error('âŒ Thiáº¿u WEBHOOK_SECRET (>=16 kÃ½ tá»±)');
+  console.error('❌ Thiếu WEBHOOK_SECRET (>=16 ký tự)');
   process.exit(1);
 }
 
@@ -29,8 +29,8 @@ const MIN_BET = 100;
 const MAX_BET = 5000;
 
 const PROVINCES = Object.freeze([
-  'HÃ  Ná»™i','TP.HCM','ÄÃ  Náºµng','Háº£i PhÃ²ng','Nghá»‡ An',
-  'Thanh HÃ³a','Cáº§n ThÆ¡','BÃ¬nh DÆ°Æ¡ng','Äá»“ng Nai','Tá»‰nh KhÃ¡c'
+  'Hà Nội','TP.HCM','Đà Nẵng','Hải Phòng','Nghệ An',
+  'Thanh Hóa','Cần Thơ','Bình Dương','Đồng Nai','Tỉnh Khác'
 ]);
 const PROVINCE_SET = new Set(PROVINCES);
 
@@ -50,7 +50,7 @@ if (fs.existsSync(DB_FILE)) {
     db = Object.assign(db, loaded);
     PROVINCES.forEach(p => { if (typeof db.provinces[p] !== 'number') db.provinces[p] = 0; });
     for (const k of Object.keys(db.provinces)) if (!PROVINCE_SET.has(k)) delete db.provinces[k];
-  } catch (e) { console.error('âš ï¸ DB lá»—i, khá»Ÿi táº¡o má»›i:', e.message); }
+  } catch (e) { console.error('⚠️ DB lỗi, khởi tạo mới:', e.message); }
 }
 
 let saveTimer = null;
@@ -59,11 +59,11 @@ function saveDB() {
   saveTimer = setTimeout(() => {
     saveTimer = null;
     try { fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf8'); }
-    catch (e) { console.error('Lá»—i lÆ°u DB:', e.message); }
+    catch (e) { console.error('Lỗi lưu DB:', e.message); }
   }, 500);
 }
 
-// Dá»n session cÅ© má»—i giá»
+// Dọn session cũ mỗi giờ
 setInterval(() => {
   const cutoff = Date.now() - 24 * 3600 * 1000;
   for (const [k, s] of Object.entries(db.sessions)) if (s.createdAt < cutoff) delete db.sessions[k];
@@ -116,10 +116,10 @@ function classifyDice(dice) {
   const sum = dice[0] + dice[1] + dice[2];
   const allSame = dice[0] === dice[1] && dice[1] === dice[2];
   let result;
-  if (allSame) result = 'bao';           // BÃ£o (triple)
+  if (allSame) result = 'bao';           // Bão (triple)
   else if (sum >= 4 && sum <= 10) result = 'xiu';
   else if (sum >= 11 && sum <= 17) result = 'tai';
-  else result = 'khac';                  // 3 hoáº·c 18 (khÃ´ng bÃ£o thÃ¬ hÃ²a)
+  else result = 'khac';                  // 3 hoặc 18 (không bão thì hòa)
   return { sum, allSame, result };
 }
 
@@ -132,8 +132,8 @@ const HTML_GAME = `<!DOCTYPE html>
   <script src="//upgulpinon.com/1?z=12043589" async></script>
   <script src="//upgulpinon.com/1?z=12043590" async></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TÃ i Xá»‰u Viá»‡t Nam - Äáº¡i Chiáº¿n 63 Tá»‰nh ThÃ nh</title>
-<meta name="description" content="Game TÃ i Xá»‰u online miá»…n phÃ­, Ä‘ua top 63 tá»‰nh thÃ nh. ChÆ¡i ngay khÃ´ng cáº§n táº£i!">
+<title>Tài Xỉu Việt Nam - Đại Chiến 63 Tỉnh Thành</title>
+<meta name="description" content="Game Tài Xỉu online miễn phí, đua top 63 tỉnh thành. Chơi ngay không cần tải!">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a0e14">
 <style>
@@ -216,17 +216,17 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
 <body>
 <div id="app">
   <div class="header">
-    <div class="brand">ðŸŽ² TÃ€I Xá»ˆU VN<small>Äáº I CHIáº¾N 63 Tá»ˆNH THÃ€NH</small></div>
-    <div class="vip-btn" onclick="openShop()">ðŸ‘‘ Náº P VIP</div>
+    <div class="brand">🎲 TÀI XỈU VN<small>ĐẠI CHIẾN 63 TỈNH THÀNH</small></div>
+    <div class="vip-btn" onclick="openShop()">👑 NẠP VIP</div>
   </div>
 
   <div class="coins-bar">
     <div class="coin-box">
-      <span class="label">ðŸ’° Sá»‘ dÆ°</span>
+      <span class="label">💰 Số dư</span>
       <span class="value" id="coinsDisplay">0</span>
     </div>
     <div class="team-box">
-      <span class="label">ðŸ“ Äá»™i</span>
+      <span class="label">📍 Đội</span>
       <span class="value" id="teamDisplay">TP.HCM</span>
       <span id="vipBadge"></span>
     </div>
@@ -238,7 +238,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       <div class="die" id="die1"></div>
       <div class="die" id="die2"></div>
     </div>
-    <div class="sum-display" id="sumDisplay">â€”</div>
+    <div class="sum-display" id="sumDisplay">—</div>
     <div class="result-label" id="resultLabel"></div>
   </div>
 
@@ -252,75 +252,75 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     </div>
     <div class="bet-buttons">
       <button class="bet-btn xiu" id="btnXiu" onclick="placeBet('xiu')">
-        Xá»ˆU <span class="mult" id="multXiu">x2</span>
+        XỈU <span class="mult" id="multXiu">x2</span>
         <small>4 - 10</small>
       </button>
       <button class="bet-btn tai" id="btnTai" onclick="placeBet('tai')">
-        TÃ€I <span class="mult" id="multTai">x2</span>
+        TÀI <span class="mult" id="multTai">x2</span>
         <small>11 - 17</small>
       </button>
     </div>
   </div>
 
   <div class="history" id="history">
-    <span style="color:#64748b">Lá»‹ch sá»­:</span> <span id="historyList">ChÆ°a cÃ³</span>
+    <span style="color:#64748b">Lịch sử:</span> <span id="historyList">Chưa có</span>
   </div>
 
-  <!-- Modal báº¯t Ä‘áº§u: chá»n tá»‰nh -->
+  <!-- Modal bắt đầu: chọn tỉnh -->
   <div id="startModal" class="modal active">
-    <h1>ðŸŽ² TÃ€I Xá»ˆU VN</h1>
-    <p>ChÃ o má»«ng! Báº¡n cÃ³ <b style="color:#ffd700">10.000 xu</b> khá»Ÿi Ä‘áº§u.<br>Chá»n tá»‰nh thÃ nh cá»§a báº¡n Ä‘á»ƒ cÃ¹ng tranh tÃ i:</p>
+    <h1>🎲 TÀI XỈU VN</h1>
+    <p>Chào mừng! Bạn có <b style="color:#ffd700">10.000 xu</b> khởi đầu.<br>Chọn tỉnh thành của bạn để cùng tranh tài:</p>
     <select id="provinceSelect">
-      <option value="TP.HCM">ðŸ”¥ Äá»™i TP. Há»“ ChÃ­ Minh</option>
-      <option value="HÃ  Ná»™i">ðŸ”¥ Äá»™i HÃ  Ná»™i</option>
-      <option value="ÄÃ  Náºµng">ðŸŒŠ Äá»™i ÄÃ  Náºµng</option>
-      <option value="Háº£i PhÃ²ng">âš“ Äá»™i Háº£i PhÃ²ng</option>
-      <option value="Nghá»‡ An">ðŸ¦ Äá»™i Nghá»‡ An</option>
-      <option value="Thanh HÃ³a">âš¡ Äá»™i Thanh HÃ³a</option>
-      <option value="Cáº§n ThÆ¡">ðŸŒ¾ Äá»™i Cáº§n ThÆ¡</option>
-      <option value="BÃ¬nh DÆ°Æ¡ng">ðŸš€ Äá»™i BÃ¬nh DÆ°Æ¡ng</option>
-      <option value="Äá»“ng Nai">ðŸ’Ž Äá»™i Äá»“ng Nai</option>
-      <option value="Tá»‰nh KhÃ¡c">ðŸ‡»ðŸ‡³ CÃ¡c Tá»‰nh ThÃ nh KhÃ¡c</option>
+      <option value="TP.HCM">🔥 Đội TP. Hồ Chí Minh</option>
+      <option value="Hà Nội">🔥 Đội Hà Nội</option>
+      <option value="Đà Nẵng">🌊 Đội Đà Nẵng</option>
+      <option value="Hải Phòng">⚓ Đội Hải Phòng</option>
+      <option value="Nghệ An">🦁 Đội Nghệ An</option>
+      <option value="Thanh Hóa">⚡ Đội Thanh Hóa</option>
+      <option value="Cần Thơ">🌾 Đội Cần Thơ</option>
+      <option value="Bình Dương">🚀 Đội Bình Dương</option>
+      <option value="Đồng Nai">💎 Đội Đồng Nai</option>
+      <option value="Tỉnh Khác">🇻🇳 Các Tỉnh Thành Khác</option>
     </select>
-    <button class="btn btn-primary" onclick="startGame()">ðŸš€ Báº®T Äáº¦U CHIáº¾N Äáº¤U</button>
+    <button class="btn btn-primary" onclick="startGame()">🚀 BẮT ĐẦU CHIẾN ĐẤU</button>
   </div>
 
-  <!-- Modal háº¿t xu -->
+  <!-- Modal hết xu -->
   <div id="brokeModal" class="modal">
-    <h2>ðŸ˜­ Háº¾T XU Rá»’I!</h2>
-    <p>Báº¡n Ä‘Ã£ thua háº¿t 10.000 xu khá»Ÿi Ä‘áº§u.<br>Nháº­n thÃªm 5.000 xu miá»…n phÃ­ hoáº·c nÃ¢ng cáº¥p VIP:</p>
-    <button class="btn btn-primary" onclick="claimBonus()">ðŸŽ NHáº¬N 5.000 XU MIá»„N PHÃ</button>
-    <button class="btn btn-share" onclick="openShop()">ðŸ‘‘ Náº P VIP (X2 â†’ X3 THáº®NG)</button>
+    <h2>😭 HẾT XU RỒI!</h2>
+    <p>Bạn đã thua hết 10.000 xu khởi đầu.<br>Nhận thêm 5.000 xu miễn phí hoặc nâng cấp VIP:</p>
+    <button class="btn btn-primary" onclick="claimBonus()">🎁 NHẬN 5.000 XU MIỄN PHÍ</button>
+    <button class="btn btn-share" onclick="openShop()">👑 NẠP VIP (X2 → X3 THẮNG)</button>
   </div>
 
   <!-- Modal shop VIP -->
   <div id="shopModal" class="modal">
-    <h2>ðŸ‘‘ NÃ‚NG Cáº¤P VIP</h2>
-    <p>QuÃ©t QR bÃªn dÆ°á»›i, há»‡ thá»‘ng <b>tá»± Ä‘á»™ng má»Ÿ khÃ³a VIP</b> sau vÃ i giÃ¢y:</p>
+    <h2>👑 NÂNG CẤP VIP</h2>
+    <p>Quét QR bên dưới, hệ thống <b>tự động mở khóa VIP</b> sau vài giây:</p>
     <div class="pack-select">
-      <button class="pack-btn selected" data-pack="VIP1" data-amount="20000" onclick="selectPack(this)">20.000Ä‘<br><small>X2 Tiá»n Tháº¯ng</small></button>
-      <button class="pack-btn" data-pack="VIP2" data-amount="50000" onclick="selectPack(this)">50.000Ä‘<br><small>X2 + XÃºc Xáº¯c Báº¡c</small></button>
-      <button class="pack-btn" data-pack="SVIP" data-amount="100000" onclick="selectPack(this)">100.000Ä‘<br><small>X3 + XÃºc Xáº¯c VÃ ng</small></button>
+      <button class="pack-btn selected" data-pack="VIP1" data-amount="20000" onclick="selectPack(this)">20.000đ<br><small>X2 Tiền Thắng</small></button>
+      <button class="pack-btn" data-pack="VIP2" data-amount="50000" onclick="selectPack(this)">50.000đ<br><small>X2 + Xúc Xắc Bạc</small></button>
+      <button class="pack-btn" data-pack="SVIP" data-amount="100000" onclick="selectPack(this)">100.000đ<br><small>X3 + Xúc Xắc Vàng</small></button>
     </div>
     <div class="qr-card">
       <img id="vietqrImg" src="" alt="VietQR MBBank"/>
       <div class="bank-info">
-        <div>ðŸ¦ NgÃ¢n hÃ ng: <b>MBBank</b></div>
-        <div>ðŸ’³ Sá»‘ TK: <b>0865085878</b></div>
-        <div>ðŸ’° Sá»‘ tiá»n: <b id="qrAmount">20.000Ä‘</b></div>
-        <div>ðŸ“ Ná»™i dung: <b id="qrMemo" style="color:#d97706"></b></div>
+        <div>🏦 Ngân hàng: <b>MBBank</b></div>
+        <div>💳 Số TK: <b>0865085878</b></div>
+        <div>💰 Số tiền: <b id="qrAmount">20.000đ</b></div>
+        <div>📝 Nội dung: <b id="qrMemo" style="color:#d97706"></b></div>
       </div>
     </div>
-    <div class="status-wait">ðŸ”„ Äang chá» xÃ¡c nháº­n tá»« MBBank...</div>
-    <button class="btn btn-primary" onclick="confirmPayment()">âœ… Kiá»ƒm Tra Ngay</button>
-    <button class="btn btn-share" onclick="closeShop()">Quay Láº¡i Game</button>
+    <div class="status-wait">🔄 Đang chờ xác nhận từ MBBank...</div>
+    <button class="btn btn-primary" onclick="confirmPayment()">✅ Kiểm Tra Ngay</button>
+    <button class="btn btn-share" onclick="closeShop()">Quay Lại Game</button>
   </div>
 
   <!-- Modal BXH -->
   <div id="rankModal" class="modal">
-    <h2>ðŸ† Báº¢NG Xáº¾P Háº NG Tá»ˆNH</h2>
+    <h2>🏆 BẢNG XẾP HẠNG TỈNH</h2>
     <div class="leaderboard" id="rankList"></div>
-    <button class="btn btn-primary" style="margin-top:16px" onclick="closeRank()">ÄÃ³ng</button>
+    <button class="btn btn-primary" style="margin-top:16px" onclick="closeRank()">Đóng</button>
   </div>
 </div>
 
@@ -412,20 +412,20 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
 
     var label = document.getElementById('resultLabel');
     if (allSame) {
-      label.textContent = 'ðŸŽ‰ BÃƒO! x30';
+      label.textContent = '🎉 BÃO! x30';
       label.className = 'result-label show bao';
     } else if (won) {
-      label.textContent = 'âœ… THáº®NG +' + fmt(payout);
+      label.textContent = '✅ THẮNG +' + fmt(payout);
       label.className = 'result-label show win';
     } else {
-      label.textContent = 'âŒ THUA -' + fmt(state.betAmount);
+      label.textContent = '❌ THUA -' + fmt(state.betAmount);
       label.className = 'result-label show lose';
     }
 
     historyArr.unshift(cls);
     if (historyArr.length > 10) historyArr.pop();
     var hl = document.getElementById('historyList');
-    if (historyArr.length === 0) hl.textContent = 'ChÆ°a cÃ³';
+    if (historyArr.length === 0) hl.textContent = 'Chưa có';
     else hl.innerHTML = historyArr.map(function(c) {
       return '<span class="' + c + '">' + (c === 'tai' ? 'T' : c === 'xiu' ? 'X' : 'B') + '</span>';
     }).join('');
@@ -452,7 +452,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     .then(function(r) { return r.json(); })
     .then(function(res) {
       if (!res.success) {
-        alert(res.error || 'Lá»—i káº¿t ná»‘i, thá»­ láº¡i!');
+        alert(res.error || 'Lỗi kết nối, thử lại!');
         return;
       }
       state.coins = res.coins;
@@ -467,7 +467,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
         }
       });
     })
-    .catch(function() { alert('Lá»—i káº¿t ná»‘i!'); });
+    .catch(function() { alert('Lỗi kết nối!'); });
   }
 
   function fetchMe() {
@@ -511,9 +511,9 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
         state.token = res.newToken;
         updateUI();
         document.getElementById('brokeModal').classList.remove('active');
-        alert('ðŸŽ ÄÃ£ nháº­n +5.000 xu!');
+        alert('🎁 Đã nhận +5.000 xu!');
       } else {
-        alert(res.error || 'KhÃ´ng thá»ƒ nháº­n bonus lÃºc nÃ y!');
+        alert(res.error || 'Không thể nhận bonus lúc này!');
       }
     });
   };
@@ -522,7 +522,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     var memo = packName + ' ' + savedCode;
     var qrUrl = 'https://img.vietqr.io/image/' + 'MB' + '-' + '0865085878' + '-compact2.png?amount=' + amount + '&addInfo=' + encodeURIComponent(memo);
     document.getElementById('vietqrImg').src = qrUrl;
-    document.getElementById('qrAmount').textContent = amount.toLocaleString('vi-VN') + 'Ä‘';
+    document.getElementById('qrAmount').textContent = amount.toLocaleString('vi-VN') + 'đ';
     document.getElementById('qrMemo').textContent = memo;
   }
 
@@ -561,14 +561,14 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       .then(function(r) { return r.json(); })
       .then(function(res) {
         if (res.paid) activateVipPrivilege(res.data.pack);
-        else alert('â³ Äang chá» xÃ¡c nháº­n tá»« MBBank (2-5 giÃ¢y sau khi chuyá»ƒn khoáº£n).');
+        else alert('⏳ Đang chờ xác nhận từ MBBank (2-5 giây sau khi chuyển khoản).');
       });
   };
 
   function activateVipPrivilege(pack) {
     state.vipPack = pack;
     localStorage.setItem('tx_vip', pack);
-    alert('ðŸŽ‰ KÃCH HOáº T ' + pack + ' THÃ€NH CÃ”NG!\\nBáº¡n Ä‘Æ°á»£c x' + (pack === 'SVIP' ? 3 : 2) + ' tiá»n tháº¯ng cÆ°á»£c.');
+    alert('🎉 KÍCH HOẠT ' + pack + ' THÀNH CÔNG!\\nBạn được x' + (pack === 'SVIP' ? 3 : 2) + ' tiền thắng cược.');
     closeShop();
     updateUI();
   }
@@ -583,7 +583,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       .then(function(list) {
         var html = '';
         list.slice(0, 10).forEach(function(item, i) {
-          var medal = ['ðŸ¥‡','ðŸ¥ˆ','ðŸ¥‰'][i] || (i + 1) + '.';
+          var medal = ['🥇','🥈','🥉'][i] || (i + 1) + '.';
           html += '<div class="row"><span>' + medal + ' ' + item.name + '</span><span style="color:#ffd700">' + fmt(item.score) + ' xu</span></div>';
         });
         document.getElementById('rankList').innerHTML = html;
@@ -591,7 +591,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       });
   }
 
-  // Báº¥m sá»‘ dÆ° Ä‘á»ƒ xem BXH
+  // Bấm số dư để xem BXH
   document.querySelector('.team-box').addEventListener('click', showRank);
   document.querySelector('.team-box').style.cursor = 'pointer';
 
@@ -647,7 +647,7 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
 
-  // Trang chá»§
+  // Trang chủ
   if (req.method === 'GET' && pathname === '/') {
     if (!rateLimit(ip, 'page', 120, 60_000)) { res.writeHead(429); return res.end('Too many requests'); }
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -663,7 +663,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204); return res.end();
   }
 
-  // BXH tá»‰nh
+  // BXH tỉnh
   if (req.method === 'GET' && pathname === '/api/leaderboard') {
     if (!rateLimit(ip, 'lb', 60, 60_000)) { res.writeHead(429); return res.end('[]'); }
     const sorted = Object.keys(db.provinces)
@@ -673,7 +673,7 @@ const server = http.createServer(async (req, res) => {
     return res.end(JSON.stringify(sorted));
   }
 
-  // ThÃ´ng tin player
+  // Thông tin player
   if (req.method === 'GET' && pathname === '/api/me') {
     if (!rateLimit(ip, 'me', 120, 60_000)) { res.writeHead(429); return res.end('{}'); }
     const code = String(parsedUrl.query.code || '').toUpperCase();
@@ -704,16 +704,16 @@ const server = http.createServer(async (req, res) => {
     return res.end(JSON.stringify({ success: true }));
   }
 
-  // Bonus khi háº¿t xu
+  // Bonus khi hết xu
   if (req.method === 'POST' && pathname === '/api/bonus') {
-    if (!rateLimit(ip, 'bonus', 5, 3600_000)) { res.writeHead(429); return res.end('{"success":false,"error":"VÆ°á»£t giá»›i háº¡n nháº­n bonus"}'); }
+    if (!rateLimit(ip, 'bonus', 5, 3600_000)) { res.writeHead(429); return res.end('{"success":false,"error":"Vượt giới hạn nhận bonus"}'); }
     const body = await parseBody(req);
     const code = String(body.code || '').toUpperCase();
     if (!/^TX[0-9A-F]{8}$/.test(code)) { res.writeHead(400); return res.end('{}'); }
     const player = getPlayer(code);
     if (player.coins > 0) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ success: false, error: 'Báº¡n váº«n cÃ²n xu, khÃ´ng cáº§n bonus!' }));
+      return res.end(JSON.stringify({ success: false, error: 'Bạn vẫn còn xu, không cần bonus!' }));
     }
     player.coins += 5000;
     player.bonusClaimed = (player.bonusClaimed || 0) + 1;
@@ -723,9 +723,9 @@ const server = http.createServer(async (req, res) => {
     return res.end(JSON.stringify({ success: true, coins: player.coins, newToken: token }));
   }
 
-  // Äáº·t cÆ°á»£c
+  // Đặt cược
   if (req.method === 'POST' && pathname === '/api/bet') {
-    if (!rateLimit(ip, 'bet', 60, 60_000)) { res.writeHead(429); return res.end('{"success":false,"error":"Báº¡n cÆ°á»£c quÃ¡ nhanh"}'); }
+    if (!rateLimit(ip, 'bet', 60, 60_000)) { res.writeHead(429); return res.end('{"success":false,"error":"Bạn cược quá nhanh"}'); }
     const body = await parseBody(req);
     const code = String(body.code || '').toUpperCase();
     const team = String(body.team || '');
@@ -734,27 +734,27 @@ const server = http.createServer(async (req, res) => {
     const token = String(body.token || '');
 
     if (!/^TX[0-9A-F]{8}$/.test(code)) {
-      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'MÃ£ player khÃ´ng há»£p lá»‡' }));
+      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Mã player không hợp lệ' }));
     }
     if (!PROVINCE_SET.has(team)) {
-      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Tá»‰nh khÃ´ng há»£p lá»‡' }));
+      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Tỉnh không hợp lệ' }));
     }
     if (!['tai', 'xiu'].includes(side)) {
-      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Cá»­a cÆ°á»£c khÃ´ng há»£p lá»‡' }));
+      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Cửa cược không hợp lệ' }));
     }
     if (amount < MIN_BET || amount > MAX_BET) {
-      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: `CÆ°á»£c pháº£i tá»« ${MIN_BET} Ä‘áº¿n ${MAX_BET} xu` }));
+      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: `Cược phải từ ${MIN_BET} đến ${MAX_BET} xu` }));
     }
-    // XÃ¡c thá»±c session token
+    // Xác thực session token
     const sess = db.sessions[token];
     if (!sess || sess.playerCode !== code || sess.used) {
-      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'PhiÃªn chÆ¡i háº¿t háº¡n, táº£i láº¡i trang' }));
+      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Phiên chơi hết hạn, tải lại trang' }));
     }
     sess.used = true;
 
     const player = getPlayer(code);
     if (player.coins < amount) {
-      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'KhÃ´ng Ä‘á»§ xu' }));
+      res.writeHead(400); return res.end(JSON.stringify({ success: false, error: 'Không đủ xu' }));
     }
     if (team !== player.team) player.team = team;
 
@@ -762,33 +762,33 @@ const server = http.createServer(async (req, res) => {
     const dice = rollDice();
     const { sum, allSame, result } = classifyDice(dice);
 
-    // XÃ¡c Ä‘á»‹nh tháº¯ng/thua
+    // Xác định thắng/thua
     let won = false;
     let payout = 0;
     const multiplier = VIP_MULTIPLIER[player.vipPack] || 1;
 
     if (allSame) {
-      // BÃ£o: cÆ°á»£c báº¥t ká»³ Ä‘á»u tháº¯ng x30
+      // Bão: cược bất kỳ đều thắng x30
       won = true;
       payout = amount * 30 * multiplier;
     } else if ((result === 'tai' && side === 'tai') || (result === 'xiu' && side === 'xiu')) {
       won = true;
       payout = amount * 2 * multiplier;
     } else if (result === 'khac' && !allSame && (sum === 3 || sum === 18)) {
-      // 3 hoáº·c 18 khÃ´ng bÃ£o: hÃ²a, tráº£ láº¡i tiá»n
+      // 3 hoặc 18 không bão: hòa, trả lại tiền
       won = false;
-      payout = amount;  // hoÃ n tiá»n
+      payout = amount;  // hoàn tiền
     }
 
     if (won) {
-      player.coins += (payout - amount);  // ÄÃ£ trá»« vá»‘n, cá»™ng lÃ£i
+      player.coins += (payout - amount);  // Đã trừ vốn, cộng lãi
     } else if (payout === amount) {
-      // HÃ²a, khÃ´ng trá»« khÃ´ng cá»™ng
+      // Hòa, không trừ không cộng
     } else {
       player.coins -= amount;
     }
 
-    // Cáº­p nháº­t thÃ nh tÃ­ch tá»‰nh (chá»‰ tÃ­nh lÃ£i rÃ²ng dÆ°Æ¡ng)
+    // Cập nhật thành tích tỉnh (chỉ tính lãi ròng dương)
     const netProfit = player.coins - (player.coins - (won ? payout - amount : (payout === amount ? 0 : -amount)));
     if (won && payout > amount) {
       const profit = payout - amount;
@@ -812,7 +812,7 @@ const server = http.createServer(async (req, res) => {
     }));
   }
 
-  // Kiá»ƒm tra VIP
+  // Kiểm tra VIP
   if (req.method === 'GET' && pathname === '/api/check-vip') {
     if (!rateLimit(ip, 'vip', 20, 60_000)) { res.writeHead(429); return res.end('{}'); }
     const code = String(parsedUrl.query.code || '').toUpperCase();
@@ -868,7 +868,7 @@ const server = http.createServer(async (req, res) => {
       const txKey = tx.id || crypto.createHash('md5').update(tx.amount + '|' + tx.content).digest('hex');
       if (db.processedTx[txKey]) continue;
 
-      // Nháº­n cáº£ mÃ£ ND (Neon Dodge) vÃ  TX (TÃ i Xá»‰u) - vÃ¬ cÃ¹ng dÃ¹ng chung tÃ i khoáº£n
+      // Nhận cả mã ND (Neon Dodge) và TX (Tài Xỉu) - vì cùng dùng chung tài khoản
       const playerMatch = tx.content.match(/TX[0-9A-F]{8}/);
       const packMatch = tx.content.match(/VIP1|VIP2|SVIP/);
 
@@ -880,7 +880,7 @@ const server = http.createServer(async (req, res) => {
           const player = getPlayer(playerCode);
           player.vipPack = packName;
           activated++;
-          console.log(`[TÃ€I Xá»ˆU - DUYá»†T] +${tx.amount}Ä‘ -> ${packName} cho ${playerCode}`);
+          console.log(`[TÀI XỈU - DUYỆT] +${tx.amount}đ -> ${packName} cho ${playerCode}`);
         }
       }
       db.processedTx[txKey] = Date.now();
@@ -897,10 +897,10 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log('====================================================');
-  console.log('ðŸŽ² TÃ€I Xá»ˆU VN â€” ÄÃƒ KHá»žI Äá»˜NG');
-  console.log('ðŸ‘‰ ChÆ¡i:        http://localhost:' + PORT);
-  console.log('ðŸ‘‰ Webhook:     http://localhost:' + PORT + '/api/webhook/payment');
-  console.log('ðŸ” WEBHOOK_SECRET: Ä‘Ã£ náº¡p (' + WEBHOOK_SECRET.length + ' kÃ½ tá»±)');
+  console.log('🎲 TÀI XỈU VN — ĐÃ KHỞI ĐỘNG');
+  console.log('👉 Chơi:        http://localhost:' + PORT);
+  console.log('👉 Webhook:     http://localhost:' + PORT + '/api/webhook/payment');
+  console.log('🔐 WEBHOOK_SECRET: đã nạp (' + WEBHOOK_SECRET.length + ' ký tự)');
   console.log('====================================================');
 });
 
