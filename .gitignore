@@ -1,11 +1,7 @@
-﻿# Chỉ track những file cần cho game
-*
+﻿*
 !app.js
 !render.yaml
+!taixiu.js
+!render-taixiu.yaml
 !README.md
-!database.json
-!package.json
-!yarn.lock
-
-# Bỏ qua chính nó
-.gitignore
+!.gitignore

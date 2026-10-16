@@ -1,0 +1,12 @@
+﻿services:
+  - type: web
+    name: taixiu-vn
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node taixiu.js"
+    envVars:
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: NODE_VERSION
+        value: "24"
