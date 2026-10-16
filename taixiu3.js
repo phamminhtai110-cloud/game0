@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TAI XIU VIP PRO - Self-Advertising Edition
  * Cháº¡y: WEBHOOK_SECRET=<secret> node taixiu2.js
  * Port: 3002
@@ -141,13 +141,11 @@ const HTML_GAME = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
   <meta name="monetag" content="77d13f3d5476e6baf4972ea41b762054">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"VideoGame","name":"Tài Xỉu Online - Đại Chiến 63 Tỉnh Thành","description":"Game Tài Xỉu online miễn phí, đua top 63 tỉnh thành.","operatingSystem":"Web Browser","applicationCategory":"GameApplication","genre":"Casual","offers":{"@type":"Offer","price":"0","priceCurrency":"VND"}}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Tài Xỉu Online - Đại Chiến 63 Tỉnh Thành","operatingSystem":"Web Browser","applicationCategory":"GameApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"VND"}}</script>
   <script src="//upgulpinon.com/1?z=12043589" async></script>
   <script src="//upgulpinon.com/1?z=12043590" async></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ðŸŽ° TÃ i Xá»‰u VIP Pro - Äáº¡i Chiáº¿n 63 Tá»‰nh</title>
+<title>Tài Xỉu Online - Chơi Game Tài Xỉu Miễn Phí, Đua Top 63 Tỉnh Thành</title>
 <meta name="description" content="Chơi game Tài Xỉu online miễn phí, luật chơi đơn giản, đua top cùng 63 tỉnh thành. Nhận xu miễn phí và nâng cấp VIP!">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;user-select:none;font-family:system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
@@ -694,19 +692,6 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
   fetch('/api/ads').then(r=>r.json()).then(list=>{ window.__ADS__ = list; rotateTopAd(); }).catch(()=>{});
 })();
 </script>
-<div class="seo-content" style="position:absolute;top:100%;left:0;right:0;background:#0a0e14;color:#cbd5e1;padding:20px;font-size:13px;line-height:1.6;">
-<h1>Tài Xỉu Online - Đại Chiến 63 Tỉnh Thành</h1>
-<h2>Hướng dẫn chơi Tài Xỉu</h2>
-<p>Tài Xỉu (Sic Bo) là trò chơi dựa trên tổng điểm của ba viên xúc xắc. Người chơi đặt cược vào cửa Tài (tổng 11-17) hoặc Xỉu (tổng 4-10).</p>
-<h3>Luật chơi cơ bản</h3>
-<p><strong>Tài:</strong> Tổng điểm 3 xúc xắc từ 11 đến 17. Thắng x2 (x3 với VIP).</p>
-<p><strong>Xỉu:</strong> Tổng điểm 3 xúc xắc từ 4 đến 10. Thắng x2 (x3 với VIP).</p>
-<p><strong>Bão:</strong> Cả 3 xúc xắc cùng số. Thắng x30.</p>
-<h3>Mẹo chơi Tài Xỉu hiệu quả</h3>
-<p>1. Quản lý vốn: Chỉ đặt cược một phần nhỏ số xu hiện có.</p>
-<p>2. Quan sát lịch sử: Theo dõi các ván trước để nhận biết xu hướng.</p>
-<p>3. Tận dụng VIP: Nâng cấp VIP để nhận hệ số thắng cao hơn.</p>
-</div>
 </body>
 </html>`;
 
