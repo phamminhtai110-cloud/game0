@@ -110,7 +110,7 @@ const HTML_GAME = `<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-  <meta name="monetag" content="">
+  <meta name="monetag" content="a1b2c3d4e5f6g7h8i9j0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Neon Dodge Việt Nam - Đại Chiến 63 Tỉnh Thành</title>
 <meta name="description" content="Trò chơi phản xạ gây nghiện! Đại diện tỉnh thành của bạn vượt qua thử thách 50 điểm trong Neon Dodge.">
