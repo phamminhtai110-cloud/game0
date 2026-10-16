@@ -1,0 +1,12 @@
+﻿services:
+  - type: web
+    name: neon-dodge-vn
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node app.js"
+    envVars:
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: NODE_VERSION
+        value: "24"
