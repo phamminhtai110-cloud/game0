@@ -559,7 +559,21 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
   var currentAd = null;
 
   window.openRewardedAd = function() {
-    if (!ads.length) { alert('Không có quảng cáo'); return; }
+    if (!ads.length) {
+      fetch('/api/reward-ad', {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({code:savedCode, adId:'direct', amount:1000})})
+        .then(r=>r.json()).then(res=>{
+          if (res.success) {
+            state.coins = res.coins;
+            state.token = res.newToken;
+            updateUI();
+            alert('🎁 Nhận +1.000 xu!');
+          } else {
+            alert(res.error || 'Vui lòng chờ 30 giây!');
+          }
+        }).catch(()=>alert('Lỗi kết nối'));
+      return;
+    }
     currentAd = ads[state.adIndex % ads.length];
     state.adIndex++;
 
