@@ -3,5 +3,7 @@
 !render.yaml
 !taixiu.js
 !render-taixiu.yaml
+!taixiu2.js
+!render-taixiu2.yaml
 !README.md
 !.gitignore
