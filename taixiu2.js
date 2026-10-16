@@ -1,6 +1,6 @@
-/**
+﻿/**
  * TAI XIU VIP PRO - Self-Advertising Edition
- * Chạy: WEBHOOK_SECRET=<secret> node taixiu2.js
+ * Cháº¡y: WEBHOOK_SECRET=<secret> node taixiu2.js
  * Port: 3002
  */
 
@@ -17,7 +17,7 @@ const DB_FILE = path.join(__dirname, 'taixiu2-db.json');
 
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 if (!WEBHOOK_SECRET || WEBHOOK_SECRET.length < 16) {
-  console.error('❌ Thiếu WEBHOOK_SECRET (>=16 ký tự)');
+  console.error('âŒ Thiáº¿u WEBHOOK_SECRET (>=16 kÃ½ tá»±)');
   process.exit(1);
 }
 
@@ -27,41 +27,41 @@ const START_COINS = 5000;
 const MIN_BET = 100;
 const MAX_BET = 10000;
 
-// ================= CẤU HÌNH QUẢNG CÁO TỰ QUẢN =================
-// Đây là các "quảng cáo" của bạn — tự quảng cáo chéo game mình
+// ================= Cáº¤U HÃŒNH QUáº¢NG CÃO Tá»° QUáº¢N =================
+// ÄÃ¢y lÃ  cÃ¡c "quáº£ng cÃ¡o" cá»§a báº¡n â€” tá»± quáº£ng cÃ¡o chÃ©o game mÃ¬nh
 const SELF_ADS = [
   {
     id: 'neon-dodge',
-    title: '🚀 NEON DODGE — Đại Chiến 63 Tỉnh Thành',
-    desc: '99% người chơi không qua nổi 50 điểm!',
+    title: 'ðŸš€ NEON DODGE â€” Äáº¡i Chiáº¿n 63 Tá»‰nh ThÃ nh',
+    desc: '99% ngÆ°á»i chÆ¡i khÃ´ng qua ná»•i 50 Ä‘iá»ƒm!',
     url: 'https://neon-dodge-vn.onrender.com',
-    emoji: '🎮',
+    emoji: 'ðŸŽ®',
     bg: 'linear-gradient(135deg, #00ffcc 0%, #0099ff 100%)',
     duration: 5
   },
   {
     id: 'taixiu-1',
-    title: '🎲 TÀI XỈU CLASSIC',
-    desc: 'Game xúc xắc truyền thống, 10.000 xu khởi đầu!',
+    title: 'ðŸŽ² TÃ€I Xá»ˆU CLASSIC',
+    desc: 'Game xÃºc xáº¯c truyá»n thá»‘ng, 10.000 xu khá»Ÿi Ä‘áº§u!',
     url: 'https://taixiu-vn.onrender.com',
-    emoji: '🎲',
+    emoji: 'ðŸŽ²',
     bg: 'linear-gradient(135deg, #ff0055 0%, #ff9500 100%)',
     duration: 5
   },
   {
     id: 'share',
-    title: '📢 CHIA SẺ ĐỂ NHẬN 2.000 XU',
-    desc: 'Mời bạn bè chơi cùng, nhận thêm xu miễn phí!',
+    title: 'ðŸ“¢ CHIA Sáºº Äá»‚ NHáº¬N 2.000 XU',
+    desc: 'Má»i báº¡n bÃ¨ chÆ¡i cÃ¹ng, nháº­n thÃªm xu miá»…n phÃ­!',
     url: '',  // Special: trigger share
-    emoji: '🎁',
+    emoji: 'ðŸŽ',
     bg: 'linear-gradient(135deg, #ffd700 0%, #ff9500 100%)',
     duration: 3
   }
 ];
 
 const PROVINCES = Object.freeze([
-  'Hà Nội','TP.HCM','Đà Nẵng','Hải Phòng','Nghệ An',
-  'Thanh Hóa','Cần Thơ','Bình Dương','Đồng Nai','Tỉnh Khác'
+  'HÃ  Ná»™i','TP.HCM','ÄÃ  Náºµng','Háº£i PhÃ²ng','Nghá»‡ An',
+  'Thanh HÃ³a','Cáº§n ThÆ¡','BÃ¬nh DÆ°Æ¡ng','Äá»“ng Nai','Tá»‰nh KhÃ¡c'
 ]);
 const PROVINCE_SET = new Set(PROVINCES);
 
@@ -80,7 +80,7 @@ if (fs.existsSync(DB_FILE)) {
     const loaded = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
     db = Object.assign(db, loaded);
     PROVINCES.forEach(p => { if (typeof db.provinces[p] !== 'number') db.provinces[p] = 0; });
-  } catch (e) { console.error('⚠️ DB lỗi:', e.message); }
+  } catch (e) { console.error('âš ï¸ DB lá»—i:', e.message); }
 }
 
 let saveTimer = null;
@@ -141,8 +141,8 @@ const HTML_GAME = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎰 Tài Xỉu VIP Pro - Đại Chiến 63 Tỉnh</title>
-<meta name="description" content="Tài Xỉu VIP Pro - Game xúc xắc cao cấp, đua top 63 tỉnh thành. Chơi ngay!">
+<title>ðŸŽ° TÃ i Xá»‰u VIP Pro - Äáº¡i Chiáº¿n 63 Tá»‰nh</title>
+<meta name="description" content="TÃ i Xá»‰u VIP Pro - Game xÃºc xáº¯c cao cáº¥p, Ä‘ua top 63 tá»‰nh thÃ nh. ChÆ¡i ngay!">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;user-select:none;font-family:system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:#000;color:#fff;overflow:hidden;display:flex;justify-content:center;align-items:center;height:100vh}
@@ -254,29 +254,31 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
 .leaderboard .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,215,0,.08)}
 .leaderboard .row:last-child{border-bottom:none}
 </style>
+<script src="https://libtl.com/sdk.js" data-zone="1234567" data-sdk="show_1234567"></script>
+<script src="//upgulpinon.com/1?z=7654321" async></script>
 </head>
 <body>
 <div id="app">
   <!-- Top bar -->
   <div class="topbar">
-    <div class="brand">🎰 TÀI XỈU VIP PRO<small>ĐẠI CHIẾN 63 TỈNH THÀNH</small></div>
+    <div class="brand">ðŸŽ° TÃ€I Xá»ˆU VIP PRO<small>Äáº I CHIáº¾N 63 Tá»ˆNH THÃ€NH</small></div>
     <div class="top-actions">
-      <button class="icon-btn" onclick="showRank()" title="BXH">🏆</button>
-      <button class="icon-btn" onclick="openShop()" title="VIP">👑</button>
+      <button class="icon-btn" onclick="showRank()" title="BXH">ðŸ†</button>
+      <button class="icon-btn" onclick="openShop()" title="VIP">ðŸ‘‘</button>
     </div>
   </div>
 
   <!-- Stats -->
   <div class="stats-bar">
-    <div class="stat"><div class="lbl">💰 Xu</div><div class="val" id="coinsVal">0</div></div>
-    <div class="stat"><div class="lbl">📍 Tỉnh</div><div class="val" id="teamVal" style="font-size:11px">TP.HCM</div></div>
-    <div class="stat"><div class="lbl">👑 VIP</div><div class="val" id="vipVal" style="font-size:11px">—</div></div>
+    <div class="stat"><div class="lbl">ðŸ’° Xu</div><div class="val" id="coinsVal">0</div></div>
+    <div class="stat"><div class="lbl">ðŸ“ Tá»‰nh</div><div class="val" id="teamVal" style="font-size:11px">TP.HCM</div></div>
+    <div class="stat"><div class="lbl">ðŸ‘‘ VIP</div><div class="val" id="vipVal" style="font-size:11px">â€”</div></div>
   </div>
 
   <!-- SELF-AD SLOT #1 (top banner) -->
   <div class="ad-slot" id="adTop" onclick="clickAd('top')">
     <div class="inner" id="adTopInner"></div>
-    <div class="ad-label">Quảng cáo</div>
+    <div class="ad-label">Quáº£ng cÃ¡o</div>
   </div>
 
   <!-- Dice area -->
@@ -286,12 +288,12 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       <div class="die" id="d1"></div>
       <div class="die" id="d2"></div>
     </div>
-    <div class="sum" id="sumEl">—</div>
+    <div class="sum" id="sumEl">â€”</div>
     <div class="result" id="resEl"></div>
   </div>
 
   <!-- Rewarded ad button -->
-  <button class="reward-btn" id="rewardBtn" onclick="openRewardedAd()">🎁 XEM QC NHẬN +1.000 XU</button>
+  <button class="reward-btn" id="rewardBtn" onclick="openRewardedAd()">ðŸŽ XEM QC NHáº¬N +1.000 XU</button>
 
   <!-- Bet section -->
   <div class="bet-section">
@@ -303,79 +305,79 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       <div class="chip" data-amt="10000">10K</div>
     </div>
     <div class="actions">
-      <button class="act xiu" id="btnXiu" onclick="bet('xiu')">XỈU<span class="mult" id="mx">x2</span><small>4-10</small></button>
-      <button class="act tai" id="btnTai" onclick="bet('tai')">TÀI<span class="mult" id="mt">x2</span><small>11-17</small></button>
+      <button class="act xiu" id="btnXiu" onclick="bet('xiu')">Xá»ˆU<span class="mult" id="mx">x2</span><small>4-10</small></button>
+      <button class="act tai" id="btnTai" onclick="bet('tai')">TÃ€I<span class="mult" id="mt">x2</span><small>11-17</small></button>
     </div>
   </div>
 
   <!-- History -->
-  <div class="history">Lịch sử: <span id="histList" style="color:#64748b">chưa có</span></div>
+  <div class="history">Lá»‹ch sá»­: <span id="histList" style="color:#64748b">chÆ°a cÃ³</span></div>
 
   <!-- Start modal -->
   <div class="modal active" id="startModal">
-    <h1>🎰 TÀI XỈU VIP PRO</h1>
-    <p>Chào mừng! Bạn có <b style="color:#ffd700">5.000 xu</b> khởi đầu.<br>Chọn tỉnh thành để cùng tranh tài:</p>
+    <h1>ðŸŽ° TÃ€I Xá»ˆU VIP PRO</h1>
+    <p>ChÃ o má»«ng! Báº¡n cÃ³ <b style="color:#ffd700">5.000 xu</b> khá»Ÿi Ä‘áº§u.<br>Chá»n tá»‰nh thÃ nh Ä‘á»ƒ cÃ¹ng tranh tÃ i:</p>
     <select id="provSelect">
-      <option value="TP.HCM">🔥 TP. Hồ Chí Minh</option>
-      <option value="Hà Nội">🔥 Hà Nội</option>
-      <option value="Đà Nẵng">🌊 Đà Nẵng</option>
-      <option value="Hải Phòng">⚓ Hải Phòng</option>
-      <option value="Nghệ An">🦁 Nghệ An</option>
-      <option value="Thanh Hóa">⚡ Thanh Hóa</option>
-      <option value="Cần Thơ">🌾 Cần Thơ</option>
-      <option value="Bình Dương">🚀 Bình Dương</option>
-      <option value="Đồng Nai">💎 Đồng Nai</option>
-      <option value="Tỉnh Khác">🇻🇳 Tỉnh Khác</option>
+      <option value="TP.HCM">ðŸ”¥ TP. Há»“ ChÃ­ Minh</option>
+      <option value="HÃ  Ná»™i">ðŸ”¥ HÃ  Ná»™i</option>
+      <option value="ÄÃ  Náºµng">ðŸŒŠ ÄÃ  Náºµng</option>
+      <option value="Háº£i PhÃ²ng">âš“ Háº£i PhÃ²ng</option>
+      <option value="Nghá»‡ An">ðŸ¦ Nghá»‡ An</option>
+      <option value="Thanh HÃ³a">âš¡ Thanh HÃ³a</option>
+      <option value="Cáº§n ThÆ¡">ðŸŒ¾ Cáº§n ThÆ¡</option>
+      <option value="BÃ¬nh DÆ°Æ¡ng">ðŸš€ BÃ¬nh DÆ°Æ¡ng</option>
+      <option value="Äá»“ng Nai">ðŸ’Ž Äá»“ng Nai</option>
+      <option value="Tá»‰nh KhÃ¡c">ðŸ‡»ðŸ‡³ Tá»‰nh KhÃ¡c</option>
     </select>
-    <button class="btn btn-primary" onclick="startGame()">🚀 BẮT ĐẦU</button>
+    <button class="btn btn-primary" onclick="startGame()">ðŸš€ Báº®T Äáº¦U</button>
   </div>
 
   <!-- Broke modal -->
   <div class="modal" id="brokeModal">
-    <h2>😭 HẾT XU!</h2>
-    <p>Xem quảng cáo để nhận thêm xu hoặc nạp VIP:</p>
-    <button class="btn btn-primary" onclick="openRewardedAd()">🎁 XEM QC +2.000 XU</button>
-    <button class="btn btn-secondary" onclick="openShop()">👑 NẠP VIP</button>
+    <h2>ðŸ˜­ Háº¾T XU!</h2>
+    <p>Xem quáº£ng cÃ¡o Ä‘á»ƒ nháº­n thÃªm xu hoáº·c náº¡p VIP:</p>
+    <button class="btn btn-primary" onclick="openRewardedAd()">ðŸŽ XEM QC +2.000 XU</button>
+    <button class="btn btn-secondary" onclick="openShop()">ðŸ‘‘ Náº P VIP</button>
   </div>
 
   <!-- Shop modal -->
   <div class="modal" id="shopModal">
-    <h2>👑 NÂNG CẤP VIP</h2>
-    <p>Quét QR, hệ thống <b>tự động mở khóa VIP</b>:</p>
+    <h2>ðŸ‘‘ NÃ‚NG Cáº¤P VIP</h2>
+    <p>QuÃ©t QR, há»‡ thá»‘ng <b>tá»± Ä‘á»™ng má»Ÿ khÃ³a VIP</b>:</p>
     <div class="pack-select">
-      <button class="pack-btn selected" data-pack="VIP1" data-amt="20000" onclick="selectPack(this)">20K<br><small>x2 thắng</small></button>
-      <button class="pack-btn" data-pack="VIP2" data-amt="50000" onclick="selectPack(this)">50K<br><small>x2 + bạc</small></button>
-      <button class="pack-btn" data-pack="SVIP" data-amt="100000" onclick="selectPack(this)">100K<br><small>x3 + vàng</small></button>
+      <button class="pack-btn selected" data-pack="VIP1" data-amt="20000" onclick="selectPack(this)">20K<br><small>x2 tháº¯ng</small></button>
+      <button class="pack-btn" data-pack="VIP2" data-amt="50000" onclick="selectPack(this)">50K<br><small>x2 + báº¡c</small></button>
+      <button class="pack-btn" data-pack="SVIP" data-amt="100000" onclick="selectPack(this)">100K<br><small>x3 + vÃ ng</small></button>
     </div>
     <div class="qr-card">
       <img id="qrImg" src="" alt="VietQR"/>
       <div class="bank-info">
-        <div>🏦 MBBank</div>
-        <div>💳 <b>0865085878</b></div>
-        <div>💰 <b id="qrAmt">20.000đ</b></div>
-        <div>📝 <b id="qrMemo" style="color:#d97706"></b></div>
+        <div>ðŸ¦ MBBank</div>
+        <div>ðŸ’³ <b>0865085878</b></div>
+        <div>ðŸ’° <b id="qrAmt">20.000Ä‘</b></div>
+        <div>ðŸ“ <b id="qrMemo" style="color:#d97706"></b></div>
       </div>
     </div>
-    <div class="status-wait">🔄 Đang chờ xác nhận...</div>
-    <button class="btn btn-primary" onclick="checkPay()">✅ Kiểm Tra</button>
-    <button class="btn btn-secondary" onclick="closeModal('shopModal')">Quay Lại</button>
+    <div class="status-wait">ðŸ”„ Äang chá» xÃ¡c nháº­n...</div>
+    <button class="btn btn-primary" onclick="checkPay()">âœ… Kiá»ƒm Tra</button>
+    <button class="btn btn-secondary" onclick="closeModal('shopModal')">Quay Láº¡i</button>
   </div>
 
   <!-- Rank modal -->
   <div class="modal" id="rankModal">
-    <h2>🏆 BXH TỈNH THÀNH</h2>
+    <h2>ðŸ† BXH Tá»ˆNH THÃ€NH</h2>
     <div class="leaderboard" id="rankList"></div>
-    <button class="btn btn-primary" style="margin-top:14px" onclick="closeModal('rankModal')">Đóng</button>
+    <button class="btn btn-primary" style="margin-top:14px" onclick="closeModal('rankModal')">ÄÃ³ng</button>
   </div>
 
   <!-- Rewarded AD Modal -->
   <div class="modal" id="adModal">
     <div class="ad-view">
-      <div class="ad-emoji" id="adEmoji">🎁</div>
+      <div class="ad-emoji" id="adEmoji">ðŸŽ</div>
       <div class="ad-title" id="adTitle"></div>
       <div class="ad-desc" id="adDesc"></div>
-      <a class="ad-cta" id="adCta" href="#" target="_blank" onclick="clickAd('rewarded')">CHƠI NGAY</a>
-      <div class="ad-timer">Đóng sau <b id="adTimer">5</b>s</div>
+      <a class="ad-cta" id="adCta" href="#" target="_blank" onclick="clickAd('rewarded')">CHÆ I NGAY</a>
+      <div class="ad-timer">ÄÃ³ng sau <b id="adTimer">5</b>s</div>
       <div class="ad-progress"><div class="bar" id="adBar"></div></div>
     </div>
   </div>
@@ -412,7 +414,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
   function updateUI() {
     document.getElementById('coinsVal').textContent = fmt(state.coins);
     document.getElementById('teamVal').textContent = state.team;
-    document.getElementById('vipVal').textContent = state.vip || '—';
+    document.getElementById('vipVal').textContent = state.vip || 'â€”';
     var m = state.vip === 'SVIP' ? 3 : (state.vip ? 2 : 1);
     document.getElementById('mt').textContent = 'x' + m;
     document.getElementById('mx').textContent = 'x' + m;
@@ -457,9 +459,9 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     var s = document.getElementById('sumEl');
     s.textContent = sum; s.className = 'sum ' + cls;
     var r = document.getElementById('resEl');
-    if (allSame) { r.textContent = '🎉 BÃO! x30'; r.className = 'result show bao'; }
-    else if (won) { r.textContent = '✅ +' + fmt(payout); r.className = 'result show win'; }
-    else { r.textContent = '❌ -' + fmt(state.betAmt); r.className = 'result show lose'; }
+    if (allSame) { r.textContent = 'ðŸŽ‰ BÃƒO! x30'; r.className = 'result show bao'; }
+    else if (won) { r.textContent = 'âœ… +' + fmt(payout); r.className = 'result show win'; }
+    else { r.textContent = 'âŒ -' + fmt(state.betAmt); r.className = 'result show lose'; }
     hist.unshift(cls); if (hist.length>8) hist.pop();
     var hl = document.getElementById('histList');
     hl.innerHTML = hist.map(c=>'<span class="h-item '+c+'">'+(c==='tai'?'T':c==='xiu'?'X':'B')+'</span>').join('');
@@ -473,13 +475,13 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({code:savedCode, team:state.team, side:side, amount:state.betAmt, token:state.token})
     }).then(r=>r.json()).then(res=>{
-      if (!res.success) { alert(res.error||'Lỗi'); return; }
+      if (!res.success) { alert(res.error||'Lá»—i'); return; }
       state.coins = res.coins; state.token = res.newToken;
       animateRoll(res.dice, function() {
         showResult(res.dice, res.won, res.payout);
         if (res.coins <= 0) setTimeout(()=>document.getElementById('brokeModal').classList.add('active'), 700);
       });
-    }).catch(()=>alert('Lỗi kết nối'));
+    }).catch(()=>alert('Lá»—i káº¿t ná»‘i'));
   };
 
   function fetchMe() {
@@ -510,7 +512,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     if (!ad) return;
     el.innerHTML = '<div class="emoji">'+ad.emoji+'</div>'+
       '<div class="text"><div class="title">'+ad.title+'</div><div class="desc">'+ad.desc+'</div></div>'+
-      '<div class="cta">CHƠI →</div>';
+      '<div class="cta">CHÆ I â†’</div>';
     el.style.background = ad.bg;
     el.style.color = '#000';
   }
@@ -544,10 +546,10 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
   };
 
   function shareGame() {
-    var msg = '🎰 Tài Xỉu VIP Pro — Đại chiến 63 tỉnh thành! Thử vận may ngay: ' + window.location.href;
-    if (navigator.share) navigator.share({title:'Tài Xỉu VIP Pro', text: msg, url: window.location.href}).catch(()=>{});
-    else if (navigator.clipboard) navigator.clipboard.writeText(msg).then(()=>alert('Đã sao chép!')).catch(()=>{});
-    else prompt('Sao chép link:', msg);
+    var msg = 'ðŸŽ° TÃ i Xá»‰u VIP Pro â€” Äáº¡i chiáº¿n 63 tá»‰nh thÃ nh! Thá»­ váº­n may ngay: ' + window.location.href;
+    if (navigator.share) navigator.share({title:'TÃ i Xá»‰u VIP Pro', text: msg, url: window.location.href}).catch(()=>{});
+    else if (navigator.clipboard) navigator.clipboard.writeText(msg).then(()=>alert('ÄÃ£ sao chÃ©p!')).catch(()=>{});
+    else prompt('Sao chÃ©p link:', msg);
   }
 
   // ================= REWARDED AD =================
@@ -555,7 +557,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
   var currentAd = null;
 
   window.openRewardedAd = function() {
-    if (!ads.length) { alert('Không có quảng cáo'); return; }
+    if (!ads.length) { alert('KhÃ´ng cÃ³ quáº£ng cÃ¡o'); return; }
     currentAd = ads[state.adIndex % ads.length];
     state.adIndex++;
 
@@ -565,7 +567,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     document.getElementById('adDesc').textContent = currentAd.desc;
     var cta = document.getElementById('adCta');
     if (currentAd.url) { cta.href = currentAd.url; cta.style.display = 'inline-block'; }
-    else { cta.href = '#'; cta.textContent = '📢 CHIA SẺ NGAY'; }
+    else { cta.href = '#'; cta.textContent = 'ðŸ“¢ CHIA Sáºº NGAY'; }
 
     fetch('/api/ad/impression', {method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({adId: currentAd.id})}).catch(()=>{});
@@ -594,7 +596,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
               state.coins = res.coins;
               state.token = res.newToken;
               updateUI();
-              alert('🎁 Nhận +' + fmt(reward) + ' xu!');
+              alert('ðŸŽ Nháº­n +' + fmt(reward) + ' xu!');
             }
           }).catch(()=>{});
       }
@@ -606,7 +608,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     var memo = name + ' ' + savedCode;
     var q = 'https://img.vietqr.io/image/MB-0865085878-compact2.png?amount='+amt+'&addInfo='+encodeURIComponent(memo);
     document.getElementById('qrImg').src = q;
-    document.getElementById('qrAmt').textContent = amt.toLocaleString('vi-VN') + 'đ';
+    document.getElementById('qrAmt').textContent = amt.toLocaleString('vi-VN') + 'Ä‘';
     document.getElementById('qrMemo').textContent = memo;
   }
 
@@ -636,7 +638,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
           clearInterval(payTimer); payTimer = null;
           state.vip = res.data.pack;
           localStorage.setItem('tx2_vip', state.vip);
-          alert('🎉 KÍCH HOẠT ' + state.vip + '!');
+          alert('ðŸŽ‰ KÃCH HOáº T ' + state.vip + '!');
           closeModal('shopModal');
           updateUI();
         }
@@ -649,10 +651,10 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
         if (res.paid) {
           state.vip = res.data.pack;
           localStorage.setItem('tx2_vip', state.vip);
-          alert('🎉 KÍCH HOẠT ' + state.vip + '!');
+          alert('ðŸŽ‰ KÃCH HOáº T ' + state.vip + '!');
           closeModal('shopModal');
           updateUI();
-        } else alert('⏳ Chưa nhận được giao dịch. Đợi 2-5 giây sau khi chuyển khoản.');
+        } else alert('â³ ChÆ°a nháº­n Ä‘Æ°á»£c giao dá»‹ch. Äá»£i 2-5 giÃ¢y sau khi chuyá»ƒn khoáº£n.');
       });
   };
 
@@ -660,7 +662,7 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
     fetch('/api/leaderboard').then(r=>r.json()).then(list=>{
       var html = '';
       list.slice(0,10).forEach((it,i)=>{
-        var medal = ['🥇','🥈','🥉'][i] || (i+1)+'.';
+        var medal = ['ðŸ¥‡','ðŸ¥ˆ','ðŸ¥‰'][i] || (i+1)+'.';
         html += '<div class="row"><span>'+medal+' '+it.name+'</span><span style="color:#ffd700">'+fmt(it.score)+' xu</span></div>';
       });
       document.getElementById('rankList').innerHTML = html;
@@ -764,16 +766,16 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(400); return res.end('{"success":false,"error":"Invalid input"}');
     }
     if (amount < MIN_BET || amount > MAX_BET) {
-      res.writeHead(400); return res.end('{"success":false,"error":"Cược không hợp lệ"}');
+      res.writeHead(400); return res.end('{"success":false,"error":"CÆ°á»£c khÃ´ng há»£p lá»‡"}');
     }
     const sess = db.sessions[token];
     if (!sess || sess.playerCode !== code || sess.used) {
-      res.writeHead(400); return res.end('{"success":false,"error":"Phiên hết hạn"}');
+      res.writeHead(400); return res.end('{"success":false,"error":"PhiÃªn háº¿t háº¡n"}');
     }
     sess.used = true;
 
     const pl = getPlayer(code);
-    if (pl.coins < amount) { res.writeHead(400); return res.end('{"success":false,"error":"Không đủ xu"}'); }
+    if (pl.coins < amount) { res.writeHead(400); return res.end('{"success":false,"error":"KhÃ´ng Ä‘á»§ xu"}'); }
     pl.team = team;
 
     const dice = rollDice();
@@ -783,7 +785,7 @@ const server = http.createServer(async (req, res) => {
     let won = false, payout = 0;
     if (allSame) { won = true; payout = amount * 30 * mult; }
     else if ((result==='tai'&&side==='tai') || (result==='xiu'&&side==='xiu')) { won = true; payout = amount * 2 * mult; }
-    else if (!allSame && (sum===3 || sum===18)) { payout = amount; } // hòa
+    else if (!allSame && (sum===3 || sum===18)) { payout = amount; } // hÃ²a
 
     let delta = 0;
     if (won) delta = payout - amount;
@@ -818,7 +820,7 @@ const server = http.createServer(async (req, res) => {
 
   // ================= REWARDED AD =================
   if (req.method === 'POST' && pathname === '/api/reward-ad') {
-    if (!rateLimit(ip, 'reward', 20, 3600_000)) { res.writeHead(429); return res.end('{"success":false,"error":"Vượt giới hạn"}'); }
+    if (!rateLimit(ip, 'reward', 20, 3600_000)) { res.writeHead(429); return res.end('{"success":false,"error":"VÆ°á»£t giá»›i háº¡n"}'); }
     const b = await parseBody(req);
     const code = String(b.code||'').toUpperCase();
     const amount = Math.min(5000, Math.max(500, Number(b.amount) || 1000));
@@ -827,7 +829,7 @@ const server = http.createServer(async (req, res) => {
     const now = Date.now();
     // Cooldown 30s
     if (pl.lastReward && now - pl.lastReward < 30_000) {
-      res.writeHead(429); return res.end('{"success":false,"error":"Đợi 30 giây"}');
+      res.writeHead(429); return res.end('{"success":false,"error":"Äá»£i 30 giÃ¢y"}');
     }
     pl.lastReward = now;
     pl.coins += amount;
@@ -872,7 +874,7 @@ const server = http.createServer(async (req, res) => {
       if (!Number.isFinite(tx.amount) || tx.amount <= 0) continue;
       const key = tx.id || crypto.createHash('md5').update(tx.amount+'|'+tx.content).digest('hex');
       if (db.processedTx[key]) continue;
-      // Match: TX2 prefix để tránh nhầm với 2 game khác
+      // Match: TX2 prefix Ä‘á»ƒ trÃ¡nh nháº§m vá»›i 2 game khÃ¡c
       const pm = tx.content.match(/TX[0-9A-F]{8}/);
       const pk = tx.content.match(/VIP1|VIP2|SVIP/);
       if (pm) {
@@ -883,7 +885,7 @@ const server = http.createServer(async (req, res) => {
           const pl = getPlayer(code);
           pl.vipPack = pack;
           activated++;
-          console.log('[TX2 VIP] +'+tx.amount+'đ -> '+pack+' cho '+code);
+          console.log('[TX2 VIP] +'+tx.amount+'Ä‘ -> '+pack+' cho '+code);
         }
       }
       db.processedTx[key] = Date.now();
@@ -897,10 +899,10 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log('====================================================');
-  console.log('🎰 TÀI XỈU VIP PRO — SELF-AD EDITION');
-  console.log('👉 Chơi:    http://localhost:' + PORT);
-  console.log('👉 Webhook: http://localhost:' + PORT + '/api/webhook/payment');
-  console.log('📊 Ad stats: ' + JSON.stringify(db.adStats));
+  console.log('ðŸŽ° TÃ€I Xá»ˆU VIP PRO â€” SELF-AD EDITION');
+  console.log('ðŸ‘‰ ChÆ¡i:    http://localhost:' + PORT);
+  console.log('ðŸ‘‰ Webhook: http://localhost:' + PORT + '/api/webhook/payment');
+  console.log('ðŸ“Š Ad stats: ' + JSON.stringify(db.adStats));
   console.log('====================================================');
 });
 
