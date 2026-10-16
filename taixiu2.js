@@ -255,8 +255,9 @@ select{width:100%;max-width:300px;padding:12px;border-radius:10px;border:2px sol
 .leaderboard .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,215,0,.08)}
 .leaderboard .row:last-child{border-bottom:none}
 </style>
-<script src="https://libtl.com/sdk.js" data-zone="1234567" data-sdk="show_1234567"></script>
-<script src="//upgulpinon.com/1?z=7654321" async></script>
+<script src="https://libtl.com/sdk.js" data-zone="SỐ_THẬT_TỪ_MONETAG" data-sdk="show_SỐ_THẬT_TỪ_MONETAG"></script>
+<script src="//upgulpinon.com/1?z=SỐ_THẬT_TỪ_MONETAG" async></script>
+
 </head>
 <body>
 <div id="app">
