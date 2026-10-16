@@ -1,0 +1,102 @@
+{
+  "vipPlayers": {},
+  "provinces": {
+    "Hà Nội": 142800,
+    "TP.HCM": 142007,
+    "Đà Nẵng": 98400,
+    "Hải Phòng": 87200,
+    "Nghệ An": 79500,
+    "Thanh Hóa": 76100,
+    "Cần Thơ": 68300,
+    "Bình Dương": 64900,
+    "Đồng Nai": 59200,
+    "Tỉnh Khác": 55000
+  },
+  "processedTx": {},
+  "sessions": {
+    "87c56fac534cc2d97ea2605cd14c3ab0": {
+      "startedAt": 1792117691564,
+      "used": true
+    },
+    "94b3f16ab2321c07315abd30db306351": {
+      "startedAt": 1792117694151,
+      "used": true
+    },
+    "d219509bb39a3aa4a93b26dffc98205b": {
+      "startedAt": 1792117696200,
+      "used": true
+    },
+    "51a97c4ae57be5471e0ebbce2d63bd93": {
+      "startedAt": 1792117700694,
+      "used": true
+    },
+    "c91164a3d34faafa75f48ba0081ed1e9": {
+      "startedAt": 1792117703543,
+      "used": true
+    },
+    "6047ad6aba34b5abca4274f4a9327090": {
+      "startedAt": 1792117706075,
+      "used": true
+    },
+    "94014651b99de2bd8ece236fe0b9d198": {
+      "startedAt": 1792117711658,
+      "used": true
+    },
+    "b69f9fddaa81175b1c2a63f3f4e8ef3d": {
+      "startedAt": 1792117715097,
+      "used": true
+    },
+    "b9464cca903a6b1f773af91f94617de8": {
+      "startedAt": 1792117717867,
+      "used": true
+    },
+    "1b66c3b72f16de10501fe1ab832d7d1e": {
+      "startedAt": 1792117720228,
+      "used": true
+    },
+    "c2f7f9cc490f98d549962222942db1fe": {
+      "startedAt": 1792117722361,
+      "used": true
+    },
+    "891aa525dc9867cb636f6039bbe24c1e": {
+      "startedAt": 1792117724745,
+      "used": true
+    },
+    "f64f2858614c69ec74bd6b1444e3c4fc": {
+      "startedAt": 1792117727475,
+      "used": true
+    },
+    "b1159c68dcdef071bc41020529b87bb3": {
+      "startedAt": 1792117729370,
+      "used": true
+    },
+    "d0c3378b38018608f4c8e2d6b40fa7a3": {
+      "startedAt": 1792117731157,
+      "used": true
+    },
+    "c3e68077b16611af7229f7645be675d6": {
+      "startedAt": 1792117733937,
+      "used": true
+    },
+    "ffb0739deb086fd615b9eb1af48615da": {
+      "startedAt": 1792117736240,
+      "used": true
+    },
+    "798e5cf297ba95b03a53bb124e676f0f": {
+      "startedAt": 1792117738161,
+      "used": true
+    },
+    "ae4066d9905f66ad1ef155fc67a6098a": {
+      "startedAt": 1792117740364,
+      "used": true
+    },
+    "332f43cda9c11f726b941e06d41266fc": {
+      "startedAt": 1792117749095,
+      "used": true
+    },
+    "0efcbd1beb2558076b5f9ef5e7b4d5d0": {
+      "startedAt": 1792117752691,
+      "used": true
+    }
+  }
+}
