@@ -1,0 +1,10 @@
+﻿services:
+  - type: web
+    name: xoso-vn
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node xoso.js"
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
